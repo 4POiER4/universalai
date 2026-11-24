@@ -1,0 +1,38 @@
+map $http_upgrade $universalai_connection_upgrade {
+    default upgrade;
+    '' close;
+}
+
+log_format universalai_without_query '$remote_addr - $remote_user [$time_local] '
+                                     '"$request_method $uri $server_protocol" '
+                                     '$status $body_bytes_sent';
+
+server {
+    listen 80;
+    server_name universalai.example.com;
+    return 308 https://universalai.example.com$request_uri;
+}
+
+server {
+    listen 443 ssl;
+    server_name universalai.example.com;
+    ssl_certificate /etc/nginx/ssl/universalai.example.com.crt;
+    ssl_certificate_key /etc/nginx/ssl/universalai.example.com.key;
+
+    access_log /var/log/nginx/universalai.access.log universalai_without_query;
+    client_max_body_size 26m;
+
+    location / {
+        proxy_pass http://127.0.0.1:8085;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $remote_addr;
+        proxy_set_header X-Forwarded-Proto https;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection $universalai_connection_upgrade;
+        proxy_read_timeout 3600s;
+        proxy_send_timeout 3600s;
+        proxy_buffering off;
+    }
+}

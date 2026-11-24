@@ -1,0 +1,294 @@
+diff --git a/.dockerignore b/.dockerignore
+index 7c5d506..da0c089 100644
+--- a/.dockerignore
++++ b/.dockerignore
+@@ -2,2 +2,9 @@
+ .gitignore
++.env
++.env.*
++!.env.example
++database.db
++database.db-*
++tabel_portal_cache.json
++static/uploads/news/
+ .venv
+diff --git a/.env.example b/.env.example
+index 27b5d99..911ca31 100644
+--- a/.env.example
++++ b/.env.example
+@@ -26,2 +26,9 @@ AI_SSO_MAX_AGE_SEC=300
+ 
++# UniversalAI Messenger: включать только после назначения HTTPS-адреса.
++# Секрет должен совпадать с AI_SSO_SHARED_SECRET в UniversalAI и отличаться
++# от секрета БелнипиAI. До запуска оставьте все три поля пустыми.
++UNIVERSALAI_PUBLIC_URL=
++UNIVERSALAI_CALLBACK_URL=
++UNIVERSALAI_SSO_SHARED_SECRET=
++
+ # Персональное время прихода из сервиса Кадры.
+diff --git a/app.py b/app.py
+index 0f5e5e8..aa1990c 100644
+--- a/app.py
++++ b/app.py
+@@ -135,2 +135,3 @@ RESOURCE_PATH_DEFAULT_ICONS = {
+     '/ai-assistant': 'sparkles',
++    '/universalai': 'message-square',
+ }
+@@ -213,2 +214,8 @@ AI_SSO_SHARED_SECRET = os.environ.get('AI_SSO_SHARED_SECRET', '').strip()
+ AI_SSO_MAX_AGE_SEC = int(os.environ.get('AI_SSO_MAX_AGE_SEC', '300'))
++UNIVERSALAI_PUBLIC_URL = os.environ.get('UNIVERSALAI_PUBLIC_URL', '').strip().rstrip('/')
++UNIVERSALAI_CALLBACK_URL = os.environ.get(
++    'UNIVERSALAI_CALLBACK_URL',
++    '',
++).strip() or (f'{UNIVERSALAI_PUBLIC_URL}/sso-login' if UNIVERSALAI_PUBLIC_URL else '')
++UNIVERSALAI_SSO_SHARED_SECRET = os.environ.get('UNIVERSALAI_SSO_SHARED_SECRET', '').strip()
+ KADRY_API_URL = os.environ.get('KADRY_API_URL', '').strip().rstrip('/')
+@@ -1238,4 +1245,23 @@ def _set_exclusive_main_news(conn, news_id):
+ 
+-def _validated_ai_return_url(raw_url):
+-    """Разрешить возврат только в фиксированный callback AI и сохранить state."""
++def _universalai_sso_ready():
++    if not UNIVERSALAI_PUBLIC_URL or len(UNIVERSALAI_SSO_SHARED_SECRET) < 32:
++        return False
++    try:
++        public = urlsplit(UNIVERSALAI_PUBLIC_URL)
++        callback = urlsplit(UNIVERSALAI_CALLBACK_URL)
++    except ValueError:
++        return False
++    return (
++        public.scheme.lower() == 'https' and bool(public.hostname)
++        and not public.username and not public.password
++        and public.path in ('', '/') and not public.query and not public.fragment
++        and callback.scheme.lower() == 'https'
++        and callback.netloc.lower() == public.netloc.lower()
++        and callback.path == '/sso-login'
++        and not callback.query and not callback.fragment
++    )
++
++
++def _sso_provider_for_return_url(raw_url):
++    """Only configured, exact HTTPS callback URLs may receive a portal identity."""
+     value = (raw_url or '').strip()
+@@ -1245,13 +1271,10 @@ def _validated_ai_return_url(raw_url):
+         candidate = urlsplit(value)
+-        configured = urlsplit(AI_ASSISTANT_CALLBACK_URL)
+     except ValueError:
+         return None
+-    if (
+-        candidate.scheme.lower() != configured.scheme.lower()
+-        or candidate.netloc.lower() != configured.netloc.lower()
+-        or candidate.path.rstrip('/') != configured.path.rstrip('/')
+-        or candidate.fragment
+-    ):
++    if candidate.scheme.lower() != 'https' or not candidate.hostname or candidate.username or candidate.password or candidate.fragment:
+         return None
+-    query = dict(parse_qsl(candidate.query, keep_blank_values=True))
++    pairs = parse_qsl(candidate.query, keep_blank_values=True)
++    if len(pairs) != 1 or pairs[0][0] != 'state':
++        return None
++    query = dict(pairs)
+     state = (query.get('state') or '').strip()
+@@ -1259,17 +1282,24 @@ def _validated_ai_return_url(raw_url):
+         return None
+-    return urlunsplit((
+-        configured.scheme,
+-        configured.netloc,
+-        configured.path,
+-        urlencode({'state': state}),
+-        '',
+-    ))
+-
+-
+-def _build_ai_sso_url(username, display_name, return_url):
+-    callback_url = _validated_ai_return_url(return_url)
+-    if not callback_url:
+-        raise ValueError('Недопустимый адрес возврата AI')
+-    if not AI_SSO_SHARED_SECRET:
+-        raise RuntimeError('AI_SSO_SHARED_SECRET не настроен на портале')
++    providers = (
++        ('ai', AI_ASSISTANT_CALLBACK_URL, AI_SSO_SHARED_SECRET),
++        ('universalai', UNIVERSALAI_CALLBACK_URL if _universalai_sso_ready() else '', UNIVERSALAI_SSO_SHARED_SECRET),
++    )
++    for name, callback, secret in providers:
++        if not callback or not secret:
++            continue
++        try:
++            configured = urlsplit(callback)
++        except ValueError:
++            continue
++        if (configured.scheme.lower() == 'https' and configured.netloc.lower() == candidate.netloc.lower()
++                and configured.path == candidate.path and not configured.query and not configured.fragment):
++            return name, urlunsplit((configured.scheme, configured.netloc, configured.path, urlencode({'state': state}), '')), secret
++    return None
++
++
++def _build_sso_url(username, display_name, return_url):
++    provider = _sso_provider_for_return_url(return_url)
++    if not provider:
++        raise ValueError('Недопустимый адрес возврата SSO')
++    provider_name, callback_url, shared_secret = provider
+     login = normalize_ad_username(username)
+@@ -1277,5 +1307,11 @@ def _build_ai_sso_url(username, display_name, return_url):
+     ts = str(int(time.time()))
++    callback = urlsplit(callback_url)
++    query = dict(parse_qsl(callback.query, keep_blank_values=True))
+     payload = f'{login}|{display}|{ts}'
++    if provider_name == 'universalai':
++        if not can_access_portal_path(login, '/universalai'):
++            raise PermissionError('Нет доступа к UniversalAI')
++        payload += f"|{query['state']}"
+     signature = hmac.new(
+-        AI_SSO_SHARED_SECRET.encode('utf-8'),
++        shared_secret.encode('utf-8'),
+         payload.encode('utf-8'),
+@@ -1283,4 +1319,2 @@ def _build_ai_sso_url(username, display_name, return_url):
+     ).hexdigest()
+-    callback = urlsplit(callback_url)
+-    query = dict(parse_qsl(callback.query, keep_blank_values=True))
+     query.update({'u': login, 'd': display, 'ts': ts, 'sig': signature})
+@@ -1289,6 +1323,8 @@ def _build_ai_sso_url(username, display_name, return_url):
+ 
+-def _remember_ai_return_url(return_url):
+-    validated = _validated_ai_return_url(return_url)
+-    if not validated:
++def _remember_sso_return_url(return_url):
++    provider = _sso_provider_for_return_url(return_url)
++    if not provider:
+         return None
++    validated = provider[1]
++    # Keep the existing key so a pending AI login survives this deployment.
+     session['ai_sso_return'] = {
+@@ -1301,3 +1337,3 @@ def _remember_ai_return_url(return_url):
+ 
+-def _pending_ai_return_url():
++def _pending_sso_return_url():
+     item = session.get('ai_sso_return')
+@@ -1309,3 +1345,4 @@ def _pending_ai_return_url():
+         age = AI_SSO_MAX_AGE_SEC * 2 + 1
+-    validated = _validated_ai_return_url(item.get('url'))
++    provider = _sso_provider_for_return_url(item.get('url'))
++    validated = provider[1] if provider else None
+     if not validated or age < 0 or age > AI_SSO_MAX_AGE_SEC * 2:
+@@ -1316,4 +1353,4 @@ def _pending_ai_return_url():
+ 
+-def _signed_ai_redirect_for_session(return_url):
+-    redirect_url = _build_ai_sso_url(
++def _signed_sso_redirect_for_session(return_url):
++    redirect_url = _build_sso_url(
+         session.get('username'),
+@@ -1643,2 +1680,12 @@ def init_db():
+             )
++        if _universalai_sso_ready():
++            messenger_resource_exists = conn.execute(
++                'SELECT 1 FROM resources WHERE TRIM(url) = ? LIMIT 1',
++                ('/universalai',)
++            ).fetchone()
++            if not messenger_resource_exists:
++                conn.execute(
++                    'INSERT INTO resources (title, url, category, desc, position, icon) VALUES (?, ?, ?, ?, ?, ?)',
++                    ('UniversalAI', '/universalai', 'Сервисы', 'Корпоративный мессенджер', 0, 'message-square')
++                )
+             conn.execute('INSERT OR IGNORE INTO categories (name) VALUES (?)', ('Сервисы',))
+@@ -2115,3 +2162,3 @@ def login_page():
+         if raw_return_url:
+-            return_url = _remember_ai_return_url(raw_return_url)
++            return_url = _remember_sso_return_url(raw_return_url)
+             if not return_url:
+@@ -2119,3 +2166,3 @@ def login_page():
+         else:
+-            return_url = _pending_ai_return_url()
++            return_url = _pending_sso_return_url()
+         if session.get('logged_in'):
+@@ -2123,8 +2170,11 @@ def login_page():
+                 try:
+-                    return redirect(_signed_ai_redirect_for_session(return_url), code=302)
++                    return redirect(_signed_sso_redirect_for_session(return_url), code=302)
++                except PermissionError as exc:
++                    session.pop('ai_sso_return', None)
++                    return str(exc), 403
+                 except RuntimeError as exc:
+-                    app.logger.error('AI SSO is not configured: %s', exc)
+-                    return 'Вход в БелнипиAI временно не настроен', 503
++                    app.logger.error('SSO is not configured: %s', exc)
++                    return 'Единый вход временно не настроен', 503
+             return redirect(url_for('index'))
+-        return render_template('login.html', ai_return_url=return_url or '')
++        return render_template('login.html', sso_return_url=return_url or '')
+     data = request.get_json(silent=True) or {}
+@@ -2132,3 +2182,3 @@ def login_page():
+     if raw_return_url:
+-        return_url = _remember_ai_return_url(raw_return_url)
++        return_url = _remember_sso_return_url(raw_return_url)
+         if not return_url:
+@@ -2136,3 +2186,3 @@ def login_page():
+     else:
+-        return_url = _pending_ai_return_url()
++        return_url = _pending_sso_return_url()
+     u = normalize_ad_username(data.get('username', ''))
+@@ -2155,6 +2205,9 @@ def login_page():
+             try:
+-                response['redirect_url'] = _signed_ai_redirect_for_session(return_url)
++                response['redirect_url'] = _signed_sso_redirect_for_session(return_url)
++            except PermissionError as exc:
++                session.pop('ai_sso_return', None)
++                return jsonify(success=False, error=str(exc)), 403
+             except RuntimeError as exc:
+-                app.logger.error('AI SSO is not configured: %s', exc)
+-                return jsonify(success=False, error='Вход в БелнипиAI временно не настроен'), 503
++                app.logger.error('SSO is not configured: %s', exc)
++                return jsonify(success=False, error='Единый вход временно не настроен'), 503
+         else:
+@@ -2564,2 +2617,13 @@ def ai_assistant_page():
+ 
++@app.route('/universalai')
++def universalai_page():
++    if not session.get('logged_in'):
++        return redirect(url_for('login_page'))
++    if not _universalai_sso_ready():
++        return 'Вход в UniversalAI временно не настроен', 503
++    if not can_access_portal_path(session.get('username'), '/universalai'):
++        return redirect(url_for('index'))
++    return redirect(f"{UNIVERSALAI_PUBLIC_URL}/sso-start", code=302)
++
++
+ @app.route('/tabel')
+@@ -2605,2 +2669,5 @@ def logout():
+     session.clear()
++    if _universalai_sso_ready():
++        next_url = f"{AI_ASSISTANT_PUBLIC_URL.rstrip('/')}/sso-logout" if AI_SSO_SHARED_SECRET else url_for('login_page', _external=True)
++        return redirect(f"{UNIVERSALAI_PUBLIC_URL}/sso-logout?{urlencode({'next': next_url})}", code=302)
+     if AI_SSO_SHARED_SECRET:
+diff --git a/docker-compose.yml b/docker-compose.yml
+index 90a8a07..aec47a1 100644
+--- a/docker-compose.yml
++++ b/docker-compose.yml
+@@ -24,2 +24,5 @@ services:
+       AI_SSO_MAX_AGE_SEC: ${AI_SSO_MAX_AGE_SEC:-300}
++      UNIVERSALAI_PUBLIC_URL: ${UNIVERSALAI_PUBLIC_URL:-}
++      UNIVERSALAI_CALLBACK_URL: ${UNIVERSALAI_CALLBACK_URL:-}
++      UNIVERSALAI_SSO_SHARED_SECRET: ${UNIVERSALAI_SSO_SHARED_SECRET:-}
+       KADRY_API_URL: ${KADRY_API_URL:-}
+diff --git a/templates/index.html b/templates/index.html
+index d39bfb2..4b1cbc7 100644
+--- a/templates/index.html
++++ b/templates/index.html
+@@ -984,3 +984,4 @@
+         '/driver-trips': 'truck',
+-        '/ai-assistant': 'sparkles'
++        '/ai-assistant': 'sparkles',
++        '/universalai': 'message-square'
+     };
+diff --git a/templates/login.html b/templates/login.html
+index 08025f5..7c694ee 100644
+--- a/templates/login.html
++++ b/templates/login.html
+@@ -124,3 +124,3 @@
+ <script>
+-    const aiReturnUrl = {{ (ai_return_url or '')|tojson }};
++    const ssoReturnUrl = {{ (sso_return_url or '')|tojson }};
+ 
+@@ -141,3 +141,3 @@
+                 headers:{'Content-Type':'application/json'},
+-                body:JSON.stringify({username:u, password:p, return_url:aiReturnUrl})
++                body:JSON.stringify({username:u, password:p, return_url:ssoReturnUrl})
+             });

@@ -1,0 +1,31 @@
+# LAN deployment overrides: HTTPS on the gateway (self-signed) so browsers on
+# other devices get a Secure Context — required for crypto.randomUUID, WebRTC
+# and getUserMedia (messages + calls). LiveKit signalling is proxied through
+# the same 443 port so only one certificate has to be trusted.
+services:
+  gateway:
+    ports: !override
+      - "5000:8080"     # plain HTTP, 308-redirects to HTTPS
+      - "443:8443"      # HTTPS platform + messenger + /livekit/ signalling
+    volumes: !override
+      - ./deploy/nginx.lan-tls.conf:/etc/nginx/nginx.conf:ro
+      - ./deploy/tls:/run/tls:ro
+
+  livekit:
+    command:
+      - |
+        cat > /tmp/livekit.yaml <<EOF
+        port: 7880
+        rtc:
+          tcp_port: 7881
+          udp_port: 7882
+          use_external_ip: false
+          node_ip: ${MESSENGER_LIVEKIT_EXTERNAL_IP:?Set MESSENGER_LIVEKIT_EXTERNAL_IP for LAN}
+        keys:
+          ${MESSENGER_LIVEKIT_API_KEY:?Set MESSENGER_LIVEKIT_API_KEY in .env}: ${MESSENGER_LIVEKIT_API_SECRET:?Set MESSENGER_LIVEKIT_API_SECRET in .env}
+        webhook:
+          api_key: ${MESSENGER_LIVEKIT_API_KEY}
+          urls:
+            - http://messenger-api:8000/api/messenger/v1/livekit/webhook
+        EOF
+        exec /livekit-server --config /tmp/livekit.yaml

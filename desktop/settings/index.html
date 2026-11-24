@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Настройки</title>
+<style>
+  :root { color-scheme: dark; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 24px; font: 14px/1.5 -apple-system, "Segoe UI", Roboto, sans-serif;
+    background: #17151f; color: #eceaf6; -webkit-user-select: none;
+  }
+  h1 { font-size: 16px; margin: 0 0 4px; }
+  p.hint { color: #a29fc0; margin: 0 0 20px; font-size: 12.5px; }
+  label { display: block; font-size: 12.5px; color: #c9c6e0; margin-bottom: 6px; }
+  input {
+    width: 100%; padding: 10px 12px; border-radius: 8px; border: 1px solid #3a3654;
+    background: #221f31; color: #fff; font-size: 14px; outline: none;
+  }
+  input:focus { border-color: #7c5cff; }
+  .error { color: #ff6b6b; font-size: 12.5px; min-height: 18px; margin-top: 8px; }
+  .row { display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px; }
+  button {
+    padding: 9px 18px; border-radius: 8px; border: none; font-size: 13.5px; cursor: pointer;
+  }
+  button.primary { background: linear-gradient(135deg,#7c5cff,#4f46e5); color: #fff; }
+  button.primary:disabled { opacity: .6; cursor: default; }
+</style>
+</head>
+<body>
+  <h1>Адрес сервера UniversalAI</h1>
+  <p class="hint">Тот же адрес, что вы открываете в браузере для мессенджера — например
+    https://192.0.2.8 или https://your-server. Приложение просто загружает страницу
+    /messenger с этого сервера, ничего дополнительно настраивать не нужно.</p>
+  <label for="url">Адрес сервера</label>
+  <input id="url" type="text" placeholder="https://192.0.2.8" autofocus>
+  <div class="error" id="error"></div>
+  <div class="row">
+    <button class="primary" id="save">Сохранить</button>
+  </div>
+  <script src="renderer.js"></script>
+</body>
+</html>

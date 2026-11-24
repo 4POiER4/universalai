@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<title data-i18n="app_page_title">Belnipi.chat — корпоративный мессенджер</title>
+<link rel="stylesheet" href="/static/messenger/css/styles.css?v=20261002people">
+<link rel="stylesheet" href="/static/messenger/css/settings-extra.css?v=20260826metafix">
+</head>
+<body>
+<div class="app">
+  <nav class="rail" data-i18n-aria="nav_aria">
+    <button class="rail-btn active rail-filter" data-filter="all" type="button" data-i18n-title="nav_chats_title"><span class="ic" data-icon="chats"></span><small data-i18n="nav_chats"></small></button>
+    <button class="rail-btn rail-filter" data-filter="people" type="button" data-i18n-title="nav_people_title"><span class="ic" data-icon="user"></span><small data-i18n="nav_people"></small></button>
+    <button class="rail-btn rail-filter" data-filter="group" type="button" data-i18n-title="nav_groups_title"><span class="ic" data-icon="users"></span><small data-i18n="nav_groups"></small></button>
+    <button class="rail-btn rail-filter" data-filter="channel" type="button" data-i18n-title="nav_channels_title"><span class="ic" data-icon="channel"></span><small data-i18n="nav_channels"></small></button>
+    <button class="rail-btn" id="settingsButton" type="button" data-i18n-title="nav_settings_title"><span class="ic" data-icon="menu"></span><small data-i18n="nav_more"></small></button>
+  </nav>
+
+  <aside class="list-col">
+    <div class="list-top">
+      <button class="icon-btn mobile-only" id="mobileMenuButton" type="button" data-i18n-aria="mobile_menu_aria" data-icon-btn="menu"></button>
+      <div class="search-box"><span class="ic" data-icon="search"></span><input id="searchInput" type="search" data-i18n-placeholder="search_placeholder" autocomplete="off"></div>
+    </div>
+    <div class="folders-wrap"><div class="folders" id="folders"></div></div>
+    <div class="messenger-status" id="connectionStatus" role="status" hidden></div>
+    <div class="chat-list" id="chatList" aria-live="polite"></div>
+  </aside>
+
+  <div class="list-resizer" id="listResizer" role="separator" aria-orientation="vertical" data-i18n-aria="list_resizer_aria" tabindex="0"></div>
+
+  <div class="chat-col">
+    <main class="chat-main" id="chatMain">
+      <div class="chat-bg"></div>
+      <header class="chat-header" id="chatHeader">
+        <div class="messenger-head-main" id="headMain">
+          <button class="icon-btn back-btn" id="backButton" type="button" data-i18n-aria="back_aria" data-icon-btn="back"></button>
+          <button class="ch-info" id="chatInfoButton" type="button">
+            <span class="ch-title" id="chatTitle" data-i18n="chat_select_placeholder"></span>
+            <span class="ch-sub" id="chatSubtitle" data-i18n="chat_subtitle_default"></span>
+          </button>
+          <div class="ch-actions">
+            <button class="icon-btn" id="callButton" type="button" data-i18n-title="call_title" data-icon-btn="phone"></button>
+            <button class="icon-btn" id="messageSearchButton" type="button" data-i18n-title="chat_search_title" data-icon-btn="search"></button>
+            <button class="icon-btn" id="chatMenuButton" type="button" data-i18n-title="more_title" data-icon-btn="more"></button>
+          </div>
+        </div>
+        <div class="sel-bar" id="selectionBar"></div>
+      </header>
+      <div class="call-session-bar" id="callSessionBar" hidden></div>
+      <div class="pinned-bar" id="pinnedBar" hidden></div>
+      <div class="messages" id="messages" aria-live="polite"><div class="messages-inner" id="messageList"></div></div>
+      <button class="scroll-down" id="scrollDown" type="button" data-i18n-aria="scroll_down_aria" data-icon-btn="back"></button>
+
+      <div class="composer-wrap">
+        <div class="composer-inner">
+          <div class="compose-context" id="composeContext">
+            <span class="cc-ic" id="contextIcon" data-icon="reply"></span>
+            <div class="cc-body"><div class="cc-title" id="contextTitle"></div><div class="cc-text" id="contextText"></div></div>
+            <button class="icon-btn" id="contextCloseButton" type="button" data-i18n-aria="context_cancel_aria" data-icon-btn="close"></button>
+          </div>
+          <div class="upload-queue" id="uploadQueue"></div>
+          <div class="composer" id="composer">
+            <button class="icon-btn" id="attachButton" type="button" data-i18n-title="attach_title" data-icon-btn="attach"></button>
+            <div class="composer-input" id="composerInput" contenteditable="true" role="textbox" aria-multiline="true" data-i18n-ph="composer_placeholder" data-ph="Сообщение"></div>
+            <button class="icon-btn" id="emojiButton" type="button" data-i18n-title="emoji_title" data-icon-btn="smile"></button>
+            <button class="send-btn" id="sendButton" type="button" data-i18n-aria="send_aria" data-icon-btn="send"></button>
+          </div>
+          <div class="attach-menu" id="attachMenu"></div>
+          <input class="visually-hidden" id="fileInput" type="file" multiple>
+          <input class="visually-hidden" id="mediaInput" type="file" accept="image/*,video/*" multiple>
+          <div class="messenger-policy-note" data-i18n="policy_note"></div>
+        </div>
+      </div>
+    </main>
+
+    <aside class="emoji-side-panel" id="emojiPanel" aria-label="Эмодзи и стикеры"></aside>
+
+    <aside class="info-panel" id="infoPanel">
+      <div class="info-head"><button class="icon-btn" id="infoCloseButton" type="button" data-i18n-aria="close_aria" data-icon-btn="close"></button><span class="title" data-i18n="info_title"></span></div>
+      <div class="info-scroll" id="infoContent"></div>
+    </aside>
+  </div>
+</div>
+
+<div class="popup-layer" id="popupLayer"></div>
+<div class="modal-layer" id="modalLayer"></div>
+<div class="call-layer" id="callLayer"></div>
+<div class="toast-host" id="toastHost" aria-live="assertive"></div>
+<script src="/static/messenger/js/i18n.js?v=20261002people"></script>
+<script src="/static/messenger/js/icons.js?v=20260805cf"></script>
+<script type="module" src="/static/messenger/js/tgs-player.js?v=20260806st"></script>
+<script src="/static/messenger/js/sticker-player.js?v=20260806st"></script>
+<script src="/static/messenger/js/livekit-client.umd.min.js?v=20260807lk"></script>
+<script src="/static/messenger/js/client.js?v=20261002people"></script>
+<script src="/static/messenger/js/settings-extra.js?v=20260826metafix"></script>
+</body>
+</html>

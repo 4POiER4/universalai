@@ -1,0 +1,1036 @@
+[
+  {
+    "emoji": "❤",
+    "title": "Red Heart",
+    "folder": "001_❤",
+    "files": {
+      "static_icon": "001_❤/static_icon.webp",
+      "appear_animation": "001_❤/appear_animation.json",
+      "select_animation": "001_❤/select_animation.json",
+      "activate_animation": "001_❤/activate_animation.json",
+      "effect_animation": "001_❤/effect_animation.json",
+      "around_animation": "001_❤/around_animation.json",
+      "center_icon": "001_❤/center_icon.json"
+    }
+  },
+  {
+    "emoji": "👍",
+    "title": "Thumbs Up",
+    "folder": "002_👍",
+    "files": {
+      "static_icon": "002_👍/static_icon.webp",
+      "appear_animation": "002_👍/appear_animation.json",
+      "select_animation": "002_👍/select_animation.json",
+      "activate_animation": "002_👍/activate_animation.json",
+      "effect_animation": "002_👍/effect_animation.json",
+      "around_animation": "002_👍/around_animation.json",
+      "center_icon": "002_👍/center_icon.json"
+    }
+  },
+  {
+    "emoji": "👎",
+    "title": "Thumbs Down",
+    "folder": "003_👎",
+    "files": {
+      "static_icon": "003_👎/static_icon.webp",
+      "appear_animation": "003_👎/appear_animation.json",
+      "select_animation": "003_👎/select_animation.json",
+      "activate_animation": "003_👎/activate_animation.json",
+      "effect_animation": "003_👎/effect_animation.json",
+      "around_animation": "003_👎/around_animation.json",
+      "center_icon": "003_👎/center_icon.json"
+    }
+  },
+  {
+    "emoji": "🔥",
+    "title": "Fire",
+    "folder": "004_🔥",
+    "files": {
+      "static_icon": "004_🔥/static_icon.webp",
+      "appear_animation": "004_🔥/appear_animation.json",
+      "select_animation": "004_🔥/select_animation.json",
+      "activate_animation": "004_🔥/activate_animation.json",
+      "effect_animation": "004_🔥/effect_animation.json",
+      "around_animation": "004_🔥/around_animation.json",
+      "center_icon": "004_🔥/center_icon.json"
+    }
+  },
+  {
+    "emoji": "🥰",
+    "title": "Smiling Face with Hearts",
+    "folder": "005_🥰",
+    "files": {
+      "static_icon": "005_🥰/static_icon.webp",
+      "appear_animation": "005_🥰/appear_animation.json",
+      "select_animation": "005_🥰/select_animation.json",
+      "activate_animation": "005_🥰/activate_animation.json",
+      "effect_animation": "005_🥰/effect_animation.json",
+      "around_animation": "005_🥰/around_animation.json",
+      "center_icon": "005_🥰/center_icon.json"
+    }
+  },
+  {
+    "emoji": "👏",
+    "title": "Clapping Hands",
+    "folder": "006_👏",
+    "files": {
+      "static_icon": "006_👏/static_icon.webp",
+      "appear_animation": "006_👏/appear_animation.json",
+      "select_animation": "006_👏/select_animation.json",
+      "activate_animation": "006_👏/activate_animation.json",
+      "effect_animation": "006_👏/effect_animation.json",
+      "around_animation": "006_👏/around_animation.json",
+      "center_icon": "006_👏/center_icon.json"
+    }
+  },
+  {
+    "emoji": "😁",
+    "title": "Beaming Face",
+    "folder": "007_😁",
+    "files": {
+      "static_icon": "007_😁/static_icon.webp",
+      "appear_animation": "007_😁/appear_animation.json",
+      "select_animation": "007_😁/select_animation.json",
+      "activate_animation": "007_😁/activate_animation.json",
+      "effect_animation": "007_😁/effect_animation.json",
+      "around_animation": "007_😁/around_animation.json",
+      "center_icon": "007_😁/center_icon.json"
+    }
+  },
+  {
+    "emoji": "🤔",
+    "title": "Thinking Face",
+    "folder": "008_🤔",
+    "files": {
+      "static_icon": "008_🤔/static_icon.webp",
+      "appear_animation": "008_🤔/appear_animation.json",
+      "select_animation": "008_🤔/select_animation.json",
+      "activate_animation": "008_🤔/activate_animation.json",
+      "effect_animation": "008_🤔/effect_animation.json",
+      "around_animation": "008_🤔/around_animation.json",
+      "center_icon": "008_🤔/center_icon.json"
+    }
+  },
+  {
+    "emoji": "🤯",
+    "title": "Exploding Head",
+    "folder": "009_🤯",
+    "files": {
+      "static_icon": "009_🤯/static_icon.webp",
+      "appear_animation": "009_🤯/appear_animation.json",
+      "select_animation": "009_🤯/select_animation.json",
+      "activate_animation": "009_🤯/activate_animation.json",
+      "effect_animation": "009_🤯/effect_animation.json",
+      "around_animation": "009_🤯/around_animation.json",
+      "center_icon": "009_🤯/center_icon.json"
+    }
+  },
+  {
+    "emoji": "😱",
+    "title": "Screaming Face",
+    "folder": "010_😱",
+    "files": {
+      "static_icon": "010_😱/static_icon.webp",
+      "appear_animation": "010_😱/appear_animation.json",
+      "select_animation": "010_😱/select_animation.json",
+      "activate_animation": "010_😱/activate_animation.json",
+      "effect_animation": "010_😱/effect_animation.json",
+      "around_animation": "010_😱/around_animation.json",
+      "center_icon": "010_😱/center_icon.json"
+    }
+  },
+  {
+    "emoji": "🤬",
+    "title": "Face with Symbols on Mouth",
+    "folder": "011_🤬",
+    "files": {
+      "static_icon": "011_🤬/static_icon.webp",
+      "appear_animation": "011_🤬/appear_animation.json",
+      "select_animation": "011_🤬/select_animation.json",
+      "activate_animation": "011_🤬/activate_animation.json",
+      "effect_animation": "011_🤬/effect_animation.json",
+      "around_animation": "011_🤬/around_animation.json",
+      "center_icon": "011_🤬/center_icon.json"
+    }
+  },
+  {
+    "emoji": "😢",
+    "title": "Crying Face",
+    "folder": "012_😢",
+    "files": {
+      "static_icon": "012_😢/static_icon.webp",
+      "appear_animation": "012_😢/appear_animation.json",
+      "select_animation": "012_😢/select_animation.json",
+      "activate_animation": "012_😢/activate_animation.json",
+      "effect_animation": "012_😢/effect_animation.json",
+      "around_animation": "012_😢/around_animation.json",
+      "center_icon": "012_😢/center_icon.json"
+    }
+  },
+  {
+    "emoji": "🎉",
+    "title": "Party Popper",
+    "folder": "013_🎉",
+    "files": {
+      "static_icon": "013_🎉/static_icon.webp",
+      "appear_animation": "013_🎉/appear_animation.json",
+      "select_animation": "013_🎉/select_animation.json",
+      "activate_animation": "013_🎉/activate_animation.json",
+      "effect_animation": "013_🎉/effect_animation.json",
+      "around_animation": "013_🎉/around_animation.json",
+      "center_icon": "013_🎉/center_icon.json"
+    }
+  },
+  {
+    "emoji": "🤩",
+    "title": "Star-Struck",
+    "folder": "014_🤩",
+    "files": {
+      "static_icon": "014_🤩/static_icon.webp",
+      "appear_animation": "014_🤩/appear_animation.json",
+      "select_animation": "014_🤩/select_animation.json",
+      "activate_animation": "014_🤩/activate_animation.json",
+      "effect_animation": "014_🤩/effect_animation.json",
+      "around_animation": "014_🤩/around_animation.json",
+      "center_icon": "014_🤩/center_icon.json"
+    }
+  },
+  {
+    "emoji": "🤮",
+    "title": "Face Vomiting",
+    "folder": "015_🤮",
+    "files": {
+      "static_icon": "015_🤮/static_icon.webp",
+      "appear_animation": "015_🤮/appear_animation.json",
+      "select_animation": "015_🤮/select_animation.json",
+      "activate_animation": "015_🤮/activate_animation.json",
+      "effect_animation": "015_🤮/effect_animation.json",
+      "around_animation": "015_🤮/around_animation.json",
+      "center_icon": "015_🤮/center_icon.json"
+    }
+  },
+  {
+    "emoji": "💩",
+    "title": "Pile of Poo",
+    "folder": "016_💩",
+    "files": {
+      "static_icon": "016_💩/static_icon.webp",
+      "appear_animation": "016_💩/appear_animation.json",
+      "select_animation": "016_💩/select_animation.json",
+      "activate_animation": "016_💩/activate_animation.json",
+      "effect_animation": "016_💩/effect_animation.json",
+      "around_animation": "016_💩/around_animation.json",
+      "center_icon": "016_💩/center_icon.json"
+    }
+  },
+  {
+    "emoji": "🙏",
+    "title": "Folded Hands",
+    "folder": "017_🙏",
+    "files": {
+      "static_icon": "017_🙏/static_icon.webp",
+      "appear_animation": "017_🙏/appear_animation.json",
+      "select_animation": "017_🙏/select_animation.json",
+      "activate_animation": "017_🙏/activate_animation.json",
+      "effect_animation": "017_🙏/effect_animation.json",
+      "around_animation": "017_🙏/around_animation.json",
+      "center_icon": "017_🙏/center_icon.json"
+    }
+  },
+  {
+    "emoji": "👌",
+    "title": "Okay",
+    "folder": "018_👌",
+    "files": {
+      "static_icon": "018_👌/static_icon.webp",
+      "appear_animation": "018_👌/appear_animation.json",
+      "select_animation": "018_👌/select_animation.json",
+      "activate_animation": "018_👌/activate_animation.json",
+      "effect_animation": "018_👌/effect_animation.json",
+      "around_animation": "018_👌/around_animation.json",
+      "center_icon": "018_👌/center_icon.json"
+    }
+  },
+  {
+    "emoji": "🕊",
+    "title": "Dove of Peace",
+    "folder": "019_🕊",
+    "files": {
+      "static_icon": "019_🕊/static_icon.webp",
+      "appear_animation": "019_🕊/appear_animation.json",
+      "select_animation": "019_🕊/select_animation.json",
+      "activate_animation": "019_🕊/activate_animation.json",
+      "effect_animation": "019_🕊/effect_animation.json",
+      "around_animation": "019_🕊/around_animation.json",
+      "center_icon": "019_🕊/center_icon.json"
+    }
+  },
+  {
+    "emoji": "🤡",
+    "title": "Clown Face",
+    "folder": "020_🤡",
+    "files": {
+      "static_icon": "020_🤡/static_icon.webp",
+      "appear_animation": "020_🤡/appear_animation.json",
+      "select_animation": "020_🤡/select_animation.json",
+      "activate_animation": "020_🤡/activate_animation.json",
+      "effect_animation": "020_🤡/effect_animation.json",
+      "around_animation": "020_🤡/around_animation.json",
+      "center_icon": "020_🤡/center_icon.json"
+    }
+  },
+  {
+    "emoji": "🥱",
+    "title": "Yawning Face",
+    "folder": "021_🥱",
+    "files": {
+      "static_icon": "021_🥱/static_icon.webp",
+      "appear_animation": "021_🥱/appear_animation.json",
+      "select_animation": "021_🥱/select_animation.json",
+      "activate_animation": "021_🥱/activate_animation.json",
+      "effect_animation": "021_🥱/effect_animation.json",
+      "around_animation": "021_🥱/around_animation.json",
+      "center_icon": "021_🥱/center_icon.json"
+    }
+  },
+  {
+    "emoji": "🥴",
+    "title": "Woozy Face",
+    "folder": "022_🥴",
+    "files": {
+      "static_icon": "022_🥴/static_icon.webp",
+      "appear_animation": "022_🥴/appear_animation.json",
+      "select_animation": "022_🥴/select_animation.json",
+      "activate_animation": "022_🥴/activate_animation.json",
+      "effect_animation": "022_🥴/effect_animation.json",
+      "around_animation": "022_🥴/around_animation.json",
+      "center_icon": "022_🥴/center_icon.json"
+    }
+  },
+  {
+    "emoji": "😍",
+    "title": "Smiling Face with Heart Eyes",
+    "folder": "023_😍",
+    "files": {
+      "static_icon": "023_😍/static_icon.webp",
+      "appear_animation": "023_😍/appear_animation.json",
+      "select_animation": "023_😍/select_animation.json",
+      "activate_animation": "023_😍/activate_animation.json",
+      "effect_animation": "023_😍/effect_animation.json",
+      "around_animation": "023_😍/around_animation.json",
+      "center_icon": "023_😍/center_icon.json"
+    }
+  },
+  {
+    "emoji": "🐳",
+    "title": "Whale",
+    "folder": "024_🐳",
+    "files": {
+      "static_icon": "024_🐳/static_icon.webp",
+      "appear_animation": "024_🐳/appear_animation.json",
+      "select_animation": "024_🐳/select_animation.json",
+      "activate_animation": "024_🐳/activate_animation.json",
+      "effect_animation": "024_🐳/effect_animation.json",
+      "around_animation": "024_🐳/around_animation.json",
+      "center_icon": "024_🐳/center_icon.json"
+    }
+  },
+  {
+    "emoji": "❤‍🔥",
+    "title": "Heart on Fire",
+    "folder": "025_❤🔥",
+    "files": {
+      "static_icon": "025_❤🔥/static_icon.webp",
+      "appear_animation": "025_❤🔥/appear_animation.json",
+      "select_animation": "025_❤🔥/select_animation.json",
+      "activate_animation": "025_❤🔥/activate_animation.json",
+      "effect_animation": "025_❤🔥/effect_animation.json",
+      "around_animation": "025_❤🔥/around_animation.json",
+      "center_icon": "025_❤🔥/center_icon.json"
+    }
+  },
+  {
+    "emoji": "🌚",
+    "title": "New Moon Face",
+    "folder": "026_🌚",
+    "files": {
+      "static_icon": "026_🌚/static_icon.webp",
+      "appear_animation": "026_🌚/appear_animation.json",
+      "select_animation": "026_🌚/select_animation.json",
+      "activate_animation": "026_🌚/activate_animation.json",
+      "effect_animation": "026_🌚/effect_animation.json",
+      "around_animation": "026_🌚/around_animation.json",
+      "center_icon": "026_🌚/center_icon.json"
+    }
+  },
+  {
+    "emoji": "🌭",
+    "title": "Hot Dog",
+    "folder": "027_🌭",
+    "files": {
+      "static_icon": "027_🌭/static_icon.webp",
+      "appear_animation": "027_🌭/appear_animation.json",
+      "select_animation": "027_🌭/select_animation.json",
+      "activate_animation": "027_🌭/activate_animation.json",
+      "effect_animation": "027_🌭/effect_animation.json",
+      "around_animation": "027_🌭/around_animation.json",
+      "center_icon": "027_🌭/center_icon.json"
+    }
+  },
+  {
+    "emoji": "💯",
+    "title": "Hundred Points",
+    "folder": "028_💯",
+    "files": {
+      "static_icon": "028_💯/static_icon.webp",
+      "appear_animation": "028_💯/appear_animation.json",
+      "select_animation": "028_💯/select_animation.json",
+      "activate_animation": "028_💯/activate_animation.json",
+      "effect_animation": "028_💯/effect_animation.json",
+      "around_animation": "028_💯/around_animation.json",
+      "center_icon": "028_💯/center_icon.json"
+    }
+  },
+  {
+    "emoji": "🤣",
+    "title": "Rolling on the Floor Laughing",
+    "folder": "029_🤣",
+    "files": {
+      "static_icon": "029_🤣/static_icon.webp",
+      "appear_animation": "029_🤣/appear_animation.json",
+      "select_animation": "029_🤣/select_animation.json",
+      "activate_animation": "029_🤣/activate_animation.json",
+      "effect_animation": "029_🤣/effect_animation.json",
+      "around_animation": "029_🤣/around_animation.json",
+      "center_icon": "029_🤣/center_icon.json"
+    }
+  },
+  {
+    "emoji": "⚡",
+    "title": "High Voltage",
+    "folder": "030_⚡",
+    "files": {
+      "static_icon": "030_⚡/static_icon.webp",
+      "appear_animation": "030_⚡/appear_animation.json",
+      "select_animation": "030_⚡/select_animation.json",
+      "activate_animation": "030_⚡/activate_animation.json",
+      "effect_animation": "030_⚡/effect_animation.json",
+      "around_animation": "030_⚡/around_animation.json",
+      "center_icon": "030_⚡/center_icon.json"
+    }
+  },
+  {
+    "emoji": "🍌",
+    "title": "Banana",
+    "folder": "031_🍌",
+    "files": {
+      "static_icon": "031_🍌/static_icon.webp",
+      "appear_animation": "031_🍌/appear_animation.json",
+      "select_animation": "031_🍌/select_animation.json",
+      "activate_animation": "031_🍌/activate_animation.json",
+      "effect_animation": "031_🍌/effect_animation.json",
+      "around_animation": "031_🍌/around_animation.json",
+      "center_icon": "031_🍌/center_icon.json"
+    }
+  },
+  {
+    "emoji": "🏆",
+    "title": "Trophy",
+    "folder": "032_🏆",
+    "files": {
+      "static_icon": "032_🏆/static_icon.webp",
+      "appear_animation": "032_🏆/appear_animation.json",
+      "select_animation": "032_🏆/select_animation.json",
+      "activate_animation": "032_🏆/activate_animation.json",
+      "effect_animation": "032_🏆/effect_animation.json",
+      "around_animation": "032_🏆/around_animation.json",
+      "center_icon": "032_🏆/center_icon.json"
+    }
+  },
+  {
+    "emoji": "💔",
+    "title": "Broken Heart",
+    "folder": "033_💔",
+    "files": {
+      "static_icon": "033_💔/static_icon.webp",
+      "appear_animation": "033_💔/appear_animation.json",
+      "select_animation": "033_💔/select_animation.json",
+      "activate_animation": "033_💔/activate_animation.json",
+      "effect_animation": "033_💔/effect_animation.json",
+      "around_animation": "033_💔/around_animation.json",
+      "center_icon": "033_💔/center_icon.json"
+    }
+  },
+  {
+    "emoji": "🤨",
+    "title": "Face With Raised Eyebrow",
+    "folder": "034_🤨",
+    "files": {
+      "static_icon": "034_🤨/static_icon.webp",
+      "appear_animation": "034_🤨/appear_animation.json",
+      "select_animation": "034_🤨/select_animation.json",
+      "activate_animation": "034_🤨/activate_animation.json",
+      "effect_animation": "034_🤨/effect_animation.json",
+      "around_animation": "034_🤨/around_animation.json",
+      "center_icon": "034_🤨/center_icon.json"
+    }
+  },
+  {
+    "emoji": "😐",
+    "title": "Neutral Face",
+    "folder": "035_😐",
+    "files": {
+      "static_icon": "035_😐/static_icon.webp",
+      "appear_animation": "035_😐/appear_animation.json",
+      "select_animation": "035_😐/select_animation.json",
+      "activate_animation": "035_😐/activate_animation.json",
+      "effect_animation": "035_😐/effect_animation.json",
+      "around_animation": "035_😐/around_animation.json",
+      "center_icon": "035_😐/center_icon.json"
+    }
+  },
+  {
+    "emoji": "🍓",
+    "title": "Strawberry",
+    "folder": "036_🍓",
+    "files": {
+      "static_icon": "036_🍓/static_icon.webp",
+      "appear_animation": "036_🍓/appear_animation.json",
+      "select_animation": "036_🍓/select_animation.json",
+      "activate_animation": "036_🍓/activate_animation.json",
+      "effect_animation": "036_🍓/effect_animation.json",
+      "around_animation": "036_🍓/around_animation.json",
+      "center_icon": "036_🍓/center_icon.json"
+    }
+  },
+  {
+    "emoji": "🍾",
+    "title": "Champagne",
+    "folder": "037_🍾",
+    "files": {
+      "static_icon": "037_🍾/static_icon.webp",
+      "appear_animation": "037_🍾/appear_animation.json",
+      "select_animation": "037_🍾/select_animation.json",
+      "activate_animation": "037_🍾/activate_animation.json",
+      "effect_animation": "037_🍾/effect_animation.json",
+      "around_animation": "037_🍾/around_animation.json",
+      "center_icon": "037_🍾/center_icon.json"
+    }
+  },
+  {
+    "emoji": "💋",
+    "title": "Kiss Mark",
+    "folder": "038_💋",
+    "files": {
+      "static_icon": "038_💋/static_icon.webp",
+      "appear_animation": "038_💋/appear_animation.json",
+      "select_animation": "038_💋/select_animation.json",
+      "activate_animation": "038_💋/activate_animation.json",
+      "effect_animation": "038_💋/effect_animation.json",
+      "around_animation": "038_💋/around_animation.json",
+      "center_icon": "038_💋/center_icon.json"
+    }
+  },
+  {
+    "emoji": "🖕",
+    "title": "Middle Finger",
+    "folder": "039_🖕",
+    "files": {
+      "static_icon": "039_🖕/static_icon.webp",
+      "appear_animation": "039_🖕/appear_animation.json",
+      "select_animation": "039_🖕/select_animation.json",
+      "activate_animation": "039_🖕/activate_animation.json",
+      "effect_animation": "039_🖕/effect_animation.json",
+      "around_animation": "039_🖕/around_animation.json",
+      "center_icon": "039_🖕/center_icon.json"
+    }
+  },
+  {
+    "emoji": "😈",
+    "title": "Smiling Face with Horns",
+    "folder": "040_😈",
+    "files": {
+      "static_icon": "040_😈/static_icon.webp",
+      "appear_animation": "040_😈/appear_animation.json",
+      "select_animation": "040_😈/select_animation.json",
+      "activate_animation": "040_😈/activate_animation.json",
+      "effect_animation": "040_😈/effect_animation.json",
+      "around_animation": "040_😈/around_animation.json",
+      "center_icon": "040_😈/center_icon.json"
+    }
+  },
+  {
+    "emoji": "😴",
+    "title": "Sleeping",
+    "folder": "041_😴",
+    "files": {
+      "static_icon": "041_😴/static_icon.webp",
+      "appear_animation": "041_😴/appear_animation.json",
+      "select_animation": "041_😴/select_animation.json",
+      "activate_animation": "041_😴/activate_animation.json",
+      "effect_animation": "041_😴/effect_animation.json",
+      "around_animation": "041_😴/around_animation.json",
+      "center_icon": "041_😴/center_icon.json"
+    }
+  },
+  {
+    "emoji": "😭",
+    "title": "Loudly Crying Face",
+    "folder": "042_😭",
+    "files": {
+      "static_icon": "042_😭/static_icon.webp",
+      "appear_animation": "042_😭/appear_animation.json",
+      "select_animation": "042_😭/select_animation.json",
+      "activate_animation": "042_😭/activate_animation.json",
+      "effect_animation": "042_😭/effect_animation.json",
+      "around_animation": "042_😭/around_animation.json",
+      "center_icon": "042_😭/center_icon.json"
+    }
+  },
+  {
+    "emoji": "🤓",
+    "title": "Nerd Face",
+    "folder": "043_🤓",
+    "files": {
+      "static_icon": "043_🤓/static_icon.webp",
+      "appear_animation": "043_🤓/appear_animation.json",
+      "select_animation": "043_🤓/select_animation.json",
+      "activate_animation": "043_🤓/activate_animation.json",
+      "effect_animation": "043_🤓/effect_animation.json",
+      "around_animation": "043_🤓/around_animation.json",
+      "center_icon": "043_🤓/center_icon.json"
+    }
+  },
+  {
+    "emoji": "👻",
+    "title": "Ghost",
+    "folder": "044_👻",
+    "files": {
+      "static_icon": "044_👻/static_icon.webp",
+      "appear_animation": "044_👻/appear_animation.json",
+      "select_animation": "044_👻/select_animation.json",
+      "activate_animation": "044_👻/activate_animation.json",
+      "effect_animation": "044_👻/effect_animation.json",
+      "around_animation": "044_👻/around_animation.json",
+      "center_icon": "044_👻/center_icon.json"
+    }
+  },
+  {
+    "emoji": "👨‍💻",
+    "title": "Man Technologist",
+    "folder": "045_👨💻",
+    "files": {
+      "static_icon": "045_👨💻/static_icon.webp",
+      "appear_animation": "045_👨💻/appear_animation.json",
+      "select_animation": "045_👨💻/select_animation.json",
+      "activate_animation": "045_👨💻/activate_animation.json",
+      "effect_animation": "045_👨💻/effect_animation.json",
+      "around_animation": "045_👨💻/around_animation.json",
+      "center_icon": "045_👨💻/center_icon.json"
+    }
+  },
+  {
+    "emoji": "👀",
+    "title": "Eyes",
+    "folder": "046_👀",
+    "files": {
+      "static_icon": "046_👀/static_icon.webp",
+      "appear_animation": "046_👀/appear_animation.json",
+      "select_animation": "046_👀/select_animation.json",
+      "activate_animation": "046_👀/activate_animation.json",
+      "effect_animation": "046_👀/effect_animation.json",
+      "around_animation": "046_👀/around_animation.json",
+      "center_icon": "046_👀/center_icon.json"
+    }
+  },
+  {
+    "emoji": "🎃",
+    "title": "Jack-O-Lantern",
+    "folder": "047_🎃",
+    "files": {
+      "static_icon": "047_🎃/static_icon.webp",
+      "appear_animation": "047_🎃/appear_animation.json",
+      "select_animation": "047_🎃/select_animation.json",
+      "activate_animation": "047_🎃/activate_animation.json",
+      "effect_animation": "047_🎃/effect_animation.json",
+      "around_animation": "047_🎃/around_animation.json",
+      "center_icon": "047_🎃/center_icon.json"
+    }
+  },
+  {
+    "emoji": "🙈",
+    "title": "See-No-Evil Monkey",
+    "folder": "048_🙈",
+    "files": {
+      "static_icon": "048_🙈/static_icon.webp",
+      "appear_animation": "048_🙈/appear_animation.json",
+      "select_animation": "048_🙈/select_animation.json",
+      "activate_animation": "048_🙈/activate_animation.json",
+      "effect_animation": "048_🙈/effect_animation.json",
+      "around_animation": "048_🙈/around_animation.json",
+      "center_icon": "048_🙈/center_icon.json"
+    }
+  },
+  {
+    "emoji": "😇",
+    "title": "Smiling Face with Halo",
+    "folder": "049_😇",
+    "files": {
+      "static_icon": "049_😇/static_icon.webp",
+      "appear_animation": "049_😇/appear_animation.json",
+      "select_animation": "049_😇/select_animation.json",
+      "activate_animation": "049_😇/activate_animation.json",
+      "effect_animation": "049_😇/effect_animation.json",
+      "around_animation": "049_😇/around_animation.json",
+      "center_icon": "049_😇/center_icon.json"
+    }
+  },
+  {
+    "emoji": "😨",
+    "title": "Fearful Face",
+    "folder": "050_😨",
+    "files": {
+      "static_icon": "050_😨/static_icon.webp",
+      "appear_animation": "050_😨/appear_animation.json",
+      "select_animation": "050_😨/select_animation.json",
+      "activate_animation": "050_😨/activate_animation.json",
+      "effect_animation": "050_😨/effect_animation.json",
+      "around_animation": "050_😨/around_animation.json",
+      "center_icon": "050_😨/center_icon.json"
+    }
+  },
+  {
+    "emoji": "🤝",
+    "title": "Handshake",
+    "folder": "051_🤝",
+    "files": {
+      "static_icon": "051_🤝/static_icon.webp",
+      "appear_animation": "051_🤝/appear_animation.json",
+      "select_animation": "051_🤝/select_animation.json",
+      "activate_animation": "051_🤝/activate_animation.json",
+      "effect_animation": "051_🤝/effect_animation.json",
+      "around_animation": "051_🤝/around_animation.json",
+      "center_icon": "051_🤝/center_icon.json"
+    }
+  },
+  {
+    "emoji": "✍",
+    "title": "Writing Hand",
+    "folder": "052_✍",
+    "files": {
+      "static_icon": "052_✍/static_icon.webp",
+      "appear_animation": "052_✍/appear_animation.json",
+      "select_animation": "052_✍/select_animation.json",
+      "activate_animation": "052_✍/activate_animation.json",
+      "effect_animation": "052_✍/effect_animation.json",
+      "around_animation": "052_✍/around_animation.json",
+      "center_icon": "052_✍/center_icon.json"
+    }
+  },
+  {
+    "emoji": "🤗",
+    "title": "Hugging face",
+    "folder": "053_🤗",
+    "files": {
+      "static_icon": "053_🤗/static_icon.webp",
+      "appear_animation": "053_🤗/appear_animation.json",
+      "select_animation": "053_🤗/select_animation.json",
+      "activate_animation": "053_🤗/activate_animation.json",
+      "effect_animation": "053_🤗/effect_animation.json",
+      "around_animation": "053_🤗/around_animation.json",
+      "center_icon": "053_🤗/center_icon.json"
+    }
+  },
+  {
+    "emoji": "🫡",
+    "title": "Saluting face",
+    "folder": "054_🫡",
+    "files": {
+      "static_icon": "054_🫡/static_icon.webp",
+      "appear_animation": "054_🫡/appear_animation.json",
+      "select_animation": "054_🫡/select_animation.json",
+      "activate_animation": "054_🫡/activate_animation.json",
+      "effect_animation": "054_🫡/effect_animation.json",
+      "around_animation": "054_🫡/around_animation.json",
+      "center_icon": "054_🫡/center_icon.json"
+    }
+  },
+  {
+    "emoji": "🎅",
+    "title": "Santa Claus",
+    "folder": "055_🎅",
+    "files": {
+      "static_icon": "055_🎅/static_icon.webp",
+      "appear_animation": "055_🎅/appear_animation.json",
+      "select_animation": "055_🎅/select_animation.json",
+      "activate_animation": "055_🎅/activate_animation.json",
+      "effect_animation": "055_🎅/effect_animation.json",
+      "around_animation": "055_🎅/around_animation.json",
+      "center_icon": "055_🎅/center_icon.json"
+    }
+  },
+  {
+    "emoji": "🎄",
+    "title": "Christmas Tree",
+    "folder": "056_🎄",
+    "files": {
+      "static_icon": "056_🎄/static_icon.webp",
+      "appear_animation": "056_🎄/appear_animation.json",
+      "select_animation": "056_🎄/select_animation.json",
+      "activate_animation": "056_🎄/activate_animation.json",
+      "effect_animation": "056_🎄/effect_animation.json",
+      "around_animation": "056_🎄/around_animation.json",
+      "center_icon": "056_🎄/center_icon.json"
+    }
+  },
+  {
+    "emoji": "☃",
+    "title": "Snowman",
+    "folder": "057_☃",
+    "files": {
+      "static_icon": "057_☃/static_icon.webp",
+      "appear_animation": "057_☃/appear_animation.json",
+      "select_animation": "057_☃/select_animation.json",
+      "activate_animation": "057_☃/activate_animation.json",
+      "effect_animation": "057_☃/effect_animation.json",
+      "around_animation": "057_☃/around_animation.json",
+      "center_icon": "057_☃/center_icon.json"
+    }
+  },
+  {
+    "emoji": "💅",
+    "title": "Nail Polish",
+    "folder": "058_💅",
+    "files": {
+      "static_icon": "058_💅/static_icon.webp",
+      "appear_animation": "058_💅/appear_animation.json",
+      "select_animation": "058_💅/select_animation.json",
+      "activate_animation": "058_💅/activate_animation.json",
+      "effect_animation": "058_💅/effect_animation.json",
+      "around_animation": "058_💅/around_animation.json",
+      "center_icon": "058_💅/center_icon.json"
+    }
+  },
+  {
+    "emoji": "🤪",
+    "title": "Zany Face",
+    "folder": "059_🤪",
+    "files": {
+      "static_icon": "059_🤪/static_icon.webp",
+      "appear_animation": "059_🤪/appear_animation.json",
+      "select_animation": "059_🤪/select_animation.json",
+      "activate_animation": "059_🤪/activate_animation.json",
+      "effect_animation": "059_🤪/effect_animation.json",
+      "around_animation": "059_🤪/around_animation.json",
+      "center_icon": "059_🤪/center_icon.json"
+    }
+  },
+  {
+    "emoji": "🗿",
+    "title": "Moai",
+    "folder": "060_🗿",
+    "files": {
+      "static_icon": "060_🗿/static_icon.webp",
+      "appear_animation": "060_🗿/appear_animation.json",
+      "select_animation": "060_🗿/select_animation.json",
+      "activate_animation": "060_🗿/activate_animation.json",
+      "effect_animation": "060_🗿/effect_animation.json",
+      "around_animation": "060_🗿/around_animation.json",
+      "center_icon": "060_🗿/center_icon.json"
+    }
+  },
+  {
+    "emoji": "🆒",
+    "title": "Cool Button",
+    "folder": "061_🆒",
+    "files": {
+      "static_icon": "061_🆒/static_icon.webp",
+      "appear_animation": "061_🆒/appear_animation.json",
+      "select_animation": "061_🆒/select_animation.json",
+      "activate_animation": "061_🆒/activate_animation.json",
+      "effect_animation": "061_🆒/effect_animation.json",
+      "around_animation": "061_🆒/around_animation.json",
+      "center_icon": "061_🆒/center_icon.json"
+    }
+  },
+  {
+    "emoji": "💘",
+    "title": "Heart with Arrow",
+    "folder": "062_💘",
+    "files": {
+      "static_icon": "062_💘/static_icon.webp",
+      "appear_animation": "062_💘/appear_animation.json",
+      "select_animation": "062_💘/select_animation.json",
+      "activate_animation": "062_💘/activate_animation.json",
+      "effect_animation": "062_💘/effect_animation.json",
+      "around_animation": "062_💘/around_animation.json",
+      "center_icon": "062_💘/center_icon.json"
+    }
+  },
+  {
+    "emoji": "🙉",
+    "title": "Hear-No-Evil Monkey",
+    "folder": "063_🙉",
+    "files": {
+      "static_icon": "063_🙉/static_icon.webp",
+      "appear_animation": "063_🙉/appear_animation.json",
+      "select_animation": "063_🙉/select_animation.json",
+      "activate_animation": "063_🙉/activate_animation.json",
+      "effect_animation": "063_🙉/effect_animation.json",
+      "around_animation": "063_🙉/around_animation.json",
+      "center_icon": "063_🙉/center_icon.json"
+    }
+  },
+  {
+    "emoji": "🦄",
+    "title": "Unicorn",
+    "folder": "064_🦄",
+    "files": {
+      "static_icon": "064_🦄/static_icon.webp",
+      "appear_animation": "064_🦄/appear_animation.json",
+      "select_animation": "064_🦄/select_animation.json",
+      "activate_animation": "064_🦄/activate_animation.json",
+      "effect_animation": "064_🦄/effect_animation.json",
+      "around_animation": "064_🦄/around_animation.json",
+      "center_icon": "064_🦄/center_icon.json"
+    }
+  },
+  {
+    "emoji": "😘",
+    "title": "Face Blowing a Kiss",
+    "folder": "065_😘",
+    "files": {
+      "static_icon": "065_😘/static_icon.webp",
+      "appear_animation": "065_😘/appear_animation.json",
+      "select_animation": "065_😘/select_animation.json",
+      "activate_animation": "065_😘/activate_animation.json",
+      "effect_animation": "065_😘/effect_animation.json",
+      "around_animation": "065_😘/around_animation.json",
+      "center_icon": "065_😘/center_icon.json"
+    }
+  },
+  {
+    "emoji": "💊",
+    "title": "Pill",
+    "folder": "066_💊",
+    "files": {
+      "static_icon": "066_💊/static_icon.webp",
+      "appear_animation": "066_💊/appear_animation.json",
+      "select_animation": "066_💊/select_animation.json",
+      "activate_animation": "066_💊/activate_animation.json",
+      "effect_animation": "066_💊/effect_animation.json",
+      "around_animation": "066_💊/around_animation.json",
+      "center_icon": "066_💊/center_icon.json"
+    }
+  },
+  {
+    "emoji": "🙊",
+    "title": "Speak-No-Evil Monkey",
+    "folder": "067_🙊",
+    "files": {
+      "static_icon": "067_🙊/static_icon.webp",
+      "appear_animation": "067_🙊/appear_animation.json",
+      "select_animation": "067_🙊/select_animation.json",
+      "activate_animation": "067_🙊/activate_animation.json",
+      "effect_animation": "067_🙊/effect_animation.json",
+      "around_animation": "067_🙊/around_animation.json",
+      "center_icon": "067_🙊/center_icon.json"
+    }
+  },
+  {
+    "emoji": "😎",
+    "title": "Smiling Face with Sunglasses",
+    "folder": "068_😎",
+    "files": {
+      "static_icon": "068_😎/static_icon.webp",
+      "appear_animation": "068_😎/appear_animation.json",
+      "select_animation": "068_😎/select_animation.json",
+      "activate_animation": "068_😎/activate_animation.json",
+      "effect_animation": "068_😎/effect_animation.json",
+      "around_animation": "068_😎/around_animation.json",
+      "center_icon": "068_😎/center_icon.json"
+    }
+  },
+  {
+    "emoji": "👾",
+    "title": "Alien Monster",
+    "folder": "069_👾",
+    "files": {
+      "static_icon": "069_👾/static_icon.webp",
+      "appear_animation": "069_👾/appear_animation.json",
+      "select_animation": "069_👾/select_animation.json",
+      "activate_animation": "069_👾/activate_animation.json",
+      "effect_animation": "069_👾/effect_animation.json",
+      "around_animation": "069_👾/around_animation.json",
+      "center_icon": "069_👾/center_icon.json"
+    }
+  },
+  {
+    "emoji": "🤷‍♂",
+    "title": "Shrugging Man",
+    "folder": "070_🤷♂",
+    "files": {
+      "static_icon": "070_🤷♂/static_icon.webp",
+      "appear_animation": "070_🤷♂/appear_animation.json",
+      "select_animation": "070_🤷♂/select_animation.json",
+      "activate_animation": "070_🤷♂/activate_animation.json",
+      "effect_animation": "070_🤷♂/effect_animation.json",
+      "around_animation": "070_🤷♂/around_animation.json",
+      "center_icon": "070_🤷♂/center_icon.json"
+    }
+  },
+  {
+    "emoji": "🤷",
+    "title": "Shrugging Person",
+    "folder": "071_🤷",
+    "files": {
+      "static_icon": "071_🤷/static_icon.webp",
+      "appear_animation": "071_🤷/appear_animation.json",
+      "select_animation": "071_🤷/select_animation.json",
+      "activate_animation": "071_🤷/activate_animation.json",
+      "effect_animation": "071_🤷/effect_animation.json",
+      "around_animation": "071_🤷/around_animation.json",
+      "center_icon": "071_🤷/center_icon.json"
+    }
+  },
+  {
+    "emoji": "🤷‍♀",
+    "title": "Shrugging Woman",
+    "folder": "072_🤷♀",
+    "files": {
+      "static_icon": "072_🤷♀/static_icon.webp",
+      "appear_animation": "072_🤷♀/appear_animation.json",
+      "select_animation": "072_🤷♀/select_animation.json",
+      "activate_animation": "072_🤷♀/activate_animation.json",
+      "effect_animation": "072_🤷♀/effect_animation.json",
+      "around_animation": "072_🤷♀/around_animation.json",
+      "center_icon": "072_🤷♀/center_icon.json"
+    }
+  },
+  {
+    "emoji": "😡",
+    "title": "Rage",
+    "folder": "073_😡",
+    "files": {
+      "static_icon": "073_😡/static_icon.webp",
+      "appear_animation": "073_😡/appear_animation.json",
+      "select_animation": "073_😡/select_animation.json",
+      "activate_animation": "073_😡/activate_animation.json",
+      "effect_animation": "073_😡/effect_animation.json",
+      "around_animation": "073_😡/around_animation.json",
+      "center_icon": "073_😡/center_icon.json"
+    }
+  },
+  {
+    "emoji": "😂",
+    "title": "Face with Tears of Joy",
+    "folder": "074_😂",
+    "files": {
+      "static_icon": "074_😂/static_icon.webp",
+      "appear_animation": "074_😂/appear_animation.json",
+      "select_animation": "074_😂/select_animation.json",
+      "activate_animation": "074_😂/activate_animation.json",
+      "effect_animation": "074_😂/effect_animation.json"
+    }
+  }
+]

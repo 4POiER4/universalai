@@ -1,0 +1,122 @@
+pid /tmp/nginx.pid;
+
+events {
+  worker_connections 1024;
+}
+
+http {
+  server_tokens off;
+  resolver 127.0.0.11 valid=10s ipv6=off;
+  client_body_temp_path /tmp/client_temp;
+  proxy_temp_path /tmp/proxy_temp;
+  fastcgi_temp_path /tmp/fastcgi_temp;
+  uwsgi_temp_path /tmp/uwsgi_temp;
+  scgi_temp_path /tmp/scgi_temp;
+  client_max_body_size 1m;
+  log_format without_query '$remote_addr - $remote_user [$time_local] '
+                           '"$request_method $uri $server_protocol" '
+                           '$status $body_bytes_sent';
+  access_log /dev/stdout without_query;
+  keepalive_timeout 30s;
+  limit_req_zone $binary_remote_addr zone=api_per_ip:10m rate=20r/s;
+
+  map $http_upgrade $connection_upgrade {
+    default upgrade;
+    '' close;
+  }
+
+  server {
+    listen 8080;
+    return 308 https://$host$request_uri;
+  }
+
+  server {
+    include /etc/nginx/universalai-listener.conf;
+
+    add_header Strict-Transport-Security "max-age=31536000" always;
+    add_header X-Content-Type-Options nosniff always;
+    add_header X-Frame-Options DENY always;
+    add_header Referrer-Policy no-referrer always;
+    add_header Permissions-Policy "camera=(), microphone=(), geolocation=()" always;
+
+    # Strip the public /livekit/ prefix before proxying to LiveKit.
+    location ~ ^/livekit/(?<lk_path>.*)$ {
+      set $lk_host livekit;
+      proxy_pass http://$lk_host:7880/$lk_path$is_args$args;
+      proxy_http_version 1.1;
+      proxy_set_header Host $http_host;
+      proxy_set_header X-Real-IP $remote_addr;
+      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+      proxy_set_header X-Forwarded-Proto https;
+      proxy_set_header Upgrade $http_upgrade;
+      proxy_set_header Connection $connection_upgrade;
+      proxy_read_timeout 3600s;
+      proxy_send_timeout 3600s;
+      proxy_buffering off;
+    }
+
+    location /api/messenger/ {
+      set $messenger_upstream http://messenger-api:8000;
+      client_max_body_size 26m;
+      limit_req zone=api_per_ip burst=40 nodelay;
+      proxy_pass $messenger_upstream;
+      proxy_http_version 1.1;
+      proxy_set_header Host $http_host;
+      proxy_set_header X-Real-IP $remote_addr;
+      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+      proxy_set_header X-Forwarded-Proto https;
+      proxy_set_header X-Request-ID $request_id;
+      proxy_set_header Upgrade $http_upgrade;
+      proxy_set_header Connection $connection_upgrade;
+      proxy_read_timeout 75s;
+      proxy_send_timeout 75s;
+      proxy_buffering off;
+    }
+
+    location /api/me/avatar {
+      set $platform_upstream http://app:5000;
+      client_max_body_size 6m;
+      limit_req zone=api_per_ip burst=20 nodelay;
+      proxy_pass $platform_upstream;
+      proxy_http_version 1.1;
+      proxy_set_header Host $http_host;
+      proxy_set_header X-Real-IP $remote_addr;
+      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+      proxy_set_header X-Forwarded-Proto https;
+      proxy_set_header X-Request-ID $request_id;
+    }
+
+    location = /messenger {
+      set $platform_upstream http://app:5000;
+      proxy_pass $platform_upstream;
+      proxy_http_version 1.1;
+      proxy_set_header Host $http_host;
+      proxy_set_header X-Real-IP $remote_addr;
+      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+      proxy_set_header X-Forwarded-Proto https;
+      proxy_set_header X-Request-ID $request_id;
+
+      # A location block with its own add_header directives does not inherit
+      # the server-level ones, so the full set is repeated here — only the
+      # call feature-policy differs (calls need camera/mic on this page).
+      add_header Strict-Transport-Security "max-age=31536000" always;
+      add_header X-Content-Type-Options nosniff always;
+      add_header X-Frame-Options DENY always;
+      add_header Referrer-Policy no-referrer always;
+      add_header Permissions-Policy "camera=(self), microphone=(self), display-capture=(self), geolocation=()" always;
+    }
+
+    location / {
+      set $platform_upstream http://app:5000;
+      # Allow avatar uploads including multipart overhead.
+      client_max_body_size 6m;
+      proxy_pass $platform_upstream;
+      proxy_http_version 1.1;
+      proxy_set_header Host $http_host;
+      proxy_set_header X-Real-IP $remote_addr;
+      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+      proxy_set_header X-Forwarded-Proto https;
+      proxy_set_header X-Request-ID $request_id;
+    }
+  }
+}

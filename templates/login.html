@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="ru" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Вход — UniversalAI</title>
+  <link rel="stylesheet" href="/static/platform.css">
+</head>
+<body class="auth-page">
+  <main class="auth-shell">
+    <section class="auth-brand" aria-label="UniversalAI">
+      <div class="platform-logo">U</div>
+      <div>
+        <strong>UniversalAI</strong>
+        <span>Корпоративный мессенджер</span>
+      </div>
+    </section>
+
+    <section class="auth-card">
+      <div class="auth-heading">
+        <p class="eyebrow">Добро пожаловать</p>
+        <h1>Вход в платформу</h1>
+        <p>Используйте корпоративную учётную запись или локальный профиль.</p>
+      </div>
+
+      <div class="provider-tabs" role="tablist" aria-label="Способ входа">
+        <button type="button" class="provider-tab active" data-provider="ldap">Корпоративный AD</button>
+        <button type="button" class="provider-tab" data-provider="local">Локальный аккаунт</button>
+      </div>
+
+      <form id="login-form" data-next="{{ next_url }}">
+        <input type="hidden" id="provider" value="ldap">
+        <label>
+          <span>Логин</span>
+          <input id="username" name="username" autocomplete="username" required autofocus>
+        </label>
+        <label>
+          <span>Пароль</span>
+          <input id="password" name="password" type="password" autocomplete="current-password" required>
+        </label>
+        <div class="auth-error" id="auth-error" role="alert" aria-live="polite"></div>
+        <button class="primary-action" id="login-submit" type="submit">Войти</button>
+      </form>
+
+      <p class="auth-note" id="provider-note">
+        Пароль проверяется напрямую в Active Directory и не сохраняется платформой.
+      </p>
+    </section>
+  </main>
+  <script src="/static/login.js"></script>
+</body>
+</html>

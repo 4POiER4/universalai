@@ -1,0 +1,297 @@
+services:
+
+  postgres:
+    image: pgvector/pgvector:pg16
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+      POSTGRES_DB: universalai
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+      - ./schema.sql:/docker-entrypoint-initdb.d/001-schema.sql:ro
+    ports:
+      # Host 5432 is often taken by a local PostgreSQL install on Windows.
+      - "127.0.0.1:5433:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  redis:
+    image: redis:8.2-alpine
+    restart: unless-stopped
+    command: ["redis-server", "--save", "", "--appendonly", "no", "--maxmemory", "128mb", "--maxmemory-policy", "allkeys-lru"]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    expose:
+      - "6379"
+
+  clamav:
+    image: clamav/clamav:1.4
+    restart: unless-stopped
+    expose:
+      - "3310"
+    healthcheck:
+      test: ["CMD-SHELL", "clamdscan --ping 1"]
+      interval: 15s
+      timeout: 10s
+      retries: 20
+      start_period: 60s
+    security_opt:
+      - no-new-privileges:true
+
+  messenger-db-init:
+    image: postgres:16-alpine
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: "no"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+      POSTGRES_DB: universalai
+      MESSENGER_DB_PASSWORD: ${MESSENGER_DB_PASSWORD:?Set MESSENGER_DB_PASSWORD in .env}
+    volumes:
+      - ./services/messenger/init-db.sh:/init-db.sh:ro
+    entrypoint: ["/bin/sh", "/init-db.sh"]
+
+  messenger-attachments-init:
+    image: alpine:3.22
+    restart: "no"
+    user: "0:0"
+    command: ["sh", "-c", "mkdir -p /attachments/clean /attachments/quarantine && chown -R 10001:10001 /attachments && chmod -R u+rwX,g+rX,o-rwx /attachments"]
+    volumes:
+      - messenger_attachments:/attachments
+
+  app:
+    build: .
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    expose:
+      - "5000"
+    volumes:
+      - avatar_data:/app/data/avatars
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:5000/health', timeout=3)"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+    environment:
+      APP_ENV: ${APP_ENV:-development}
+      # Платформа использует AD/local login. Anonymous можно включить только
+      # при отдельном локальном запуске вне этого compose-профиля.
+      ALLOW_ANONYMOUS: "false"
+      DATABASE_URL: postgresql://postgres:${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}@postgres:5432/universalai
+      REDIS_URL: redis://redis:6379/1
+      AI_FLASK_SECRET: ${AI_FLASK_SECRET:?Set AI_FLASK_SECRET in .env}
+      AI_SSO_SHARED_SECRET: ${AI_SSO_SHARED_SECRET:-}
+      AI_SSO_MAX_AGE_SEC: ${AI_SSO_MAX_AGE_SEC:-300}
+      PORTAL_SSO_REQUIRED: ${PORTAL_SSO_REQUIRED:-false}
+      UNIVERSALAI_PUBLIC_URL: ${UNIVERSALAI_PUBLIC_URL:-}
+      PORTAL_LOGIN_URL: ${PORTAL_LOGIN_URL:-https://portal.example.com/login}
+      PORTAL_LOGOUT_URL: ${PORTAL_LOGOUT_URL:-https://portal.example.com/logout}
+      PORTAL_SSO_LOGOUT_CONTINUE_URL: ${PORTAL_SSO_LOGOUT_CONTINUE_URL:-https://ai.example.com/sso-logout}
+      MESSENGER_JWT_PRIVATE_KEY: ${MESSENGER_JWT_PRIVATE_KEY:-}
+      MESSENGER_JWT_KEY_ID: ${MESSENGER_JWT_KEY_ID:-local-1}
+      MESSENGER_JWT_ISSUER: ${MESSENGER_JWT_ISSUER:-universalai}
+      MESSENGER_JWT_AUDIENCE: ${MESSENGER_JWT_AUDIENCE:-messenger}
+      MESSENGER_JWT_TTL_SEC: ${MESSENGER_JWT_TTL_SEC:-300}
+      LDAP_URI: ${LDAP_URI:-}
+      LDAP_BASE_DN: ${LDAP_BASE_DN:-}
+      LDAP_BIND_DN: ${LDAP_BIND_DN:-}
+      LDAP_BIND_PASSWORD: ${LDAP_BIND_PASSWORD:-}
+      LDAP_ADMIN_GROUPS: ${LDAP_ADMIN_GROUPS:-}
+      LDAP_TIMEOUT_SEC: ${LDAP_TIMEOUT_SEC:-5}
+      LDAP_TLS_VALIDATE: ${LDAP_TLS_VALIDATE:-true}
+      LDAP_SYNC_FILTER: ${LDAP_SYNC_FILTER:-(&(objectCategory=person)(objectClass=user)(sAMAccountName=*))}
+      LDAP_SYNC_INTERVAL_MIN: ${LDAP_SYNC_INTERVAL_MIN:-15}
+      LOGIN_RATE_LIMIT: ${LOGIN_RATE_LIMIT:-10}
+      LOGIN_RATE_WINDOW_SEC: ${LOGIN_RATE_WINDOW_SEC:-300}
+      LOCAL_ADMIN_USERNAME: ${LOCAL_ADMIN_USERNAME:-admin}
+      LOCAL_ADMIN_DISPLAY_NAME: ${LOCAL_ADMIN_DISPLAY_NAME:-Администратор}
+      LOCAL_ADMIN_PASSWORD: ${LOCAL_ADMIN_PASSWORD:-}
+      LOCAL_TEST_USERNAME: ${LOCAL_TEST_USERNAME:-test}
+      LOCAL_TEST_DISPLAY_NAME: ${LOCAL_TEST_DISPLAY_NAME:-Тестовый пользователь}
+      LOCAL_TEST_PASSWORD: ${LOCAL_TEST_PASSWORD:-}
+      LOCAL_FOORY_USERNAME: ${LOCAL_FOORY_USERNAME:-foory}
+      LOCAL_FOORY_DISPLAY_NAME: ${LOCAL_FOORY_DISPLAY_NAME:-foory}
+      LOCAL_FOORY_PASSWORD: ${LOCAL_FOORY_PASSWORD:-}
+      # The messenger page's CSP connect-src must allow this origin — the
+      # LiveKit JS SDK opens its own WebSocket straight to livekit-server,
+      # bypassing messenger-api entirely, for both 1:1 and group calls.
+      MESSENGER_LIVEKIT_URL: ${MESSENGER_LIVEKIT_URL:-ws://localhost:7880}
+      SESSION_COOKIE_SECURE: ${SESSION_COOKIE_SECURE:-false}
+
+  messenger-api:
+    build:
+      context: ./services/messenger
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      messenger-db-init:
+        condition: service_completed_successfully
+      clamav:
+        condition: service_healthy
+      messenger-attachments-init:
+        condition: service_completed_successfully
+    expose:
+      - "8000"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health/ready', timeout=3)"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+    environment:
+      MESSENGER_APP_ENV: ${APP_ENV:-development}
+      MESSENGER_DATABASE_URL: postgresql://messenger_app:${MESSENGER_DB_PASSWORD:?Set MESSENGER_DB_PASSWORD in .env}@postgres:5432/universalai
+      MESSENGER_MIGRATION_DATABASE_URL: postgresql://postgres:${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}@postgres:5432/universalai
+      MESSENGER_REDIS_URL: redis://redis:6379/0
+      MESSENGER_JWT_PUBLIC_KEY: ${MESSENGER_JWT_PUBLIC_KEY:-}
+      MESSENGER_JWT_ISSUER: ${MESSENGER_JWT_ISSUER:-universalai}
+      MESSENGER_JWT_AUDIENCE: ${MESSENGER_JWT_AUDIENCE:-messenger}
+      MESSENGER_ALLOWED_ORIGINS: ${MESSENGER_ALLOWED_ORIGINS:-http://localhost:5000,http://127.0.0.1:5000}
+      MESSENGER_ALLOWED_HOSTS: ${MESSENGER_ALLOWED_HOSTS:-localhost,127.0.0.1,messenger-api}
+      MESSENGER_MESSAGE_RETENTION_DAYS: ${MESSENGER_MESSAGE_RETENTION_DAYS:-365}
+      MESSENGER_AUDIT_RETENTION_DAYS: ${MESSENGER_AUDIT_RETENTION_DAYS:-365}
+      MESSENGER_PRESENCE_CONN_TTL_SECONDS: ${MESSENGER_PRESENCE_CONN_TTL_SECONDS:-90}
+      MESSENGER_PRESENCE_SWEEP_INTERVAL_SECONDS: ${MESSENGER_PRESENCE_SWEEP_INTERVAL_SECONDS:-20}
+      MESSENGER_PRESENCE_MANUAL_SWEEP_INTERVAL_SECONDS: ${MESSENGER_PRESENCE_MANUAL_SWEEP_INTERVAL_SECONDS:-60}
+      MESSENGER_CALL_RING_TIMEOUT_SECONDS: ${MESSENGER_CALL_RING_TIMEOUT_SECONDS:-45}
+      MESSENGER_CALL_MAX_DURATION_SECONDS: ${MESSENGER_CALL_MAX_DURATION_SECONDS:-21600}
+      MESSENGER_LIVEKIT_URL: ${MESSENGER_LIVEKIT_URL:-ws://localhost:7880}
+      MESSENGER_LIVEKIT_INTERNAL_URL: ${MESSENGER_LIVEKIT_INTERNAL_URL:-http://livekit:7880}
+      MESSENGER_LIVEKIT_API_KEY: ${MESSENGER_LIVEKIT_API_KEY:?Set MESSENGER_LIVEKIT_API_KEY in .env}
+      MESSENGER_LIVEKIT_API_SECRET: ${MESSENGER_LIVEKIT_API_SECRET:?Set MESSENGER_LIVEKIT_API_SECRET in .env}
+      MESSENGER_GROUP_CALL_TOKEN_TTL_SECONDS: ${MESSENGER_GROUP_CALL_TOKEN_TTL_SECONDS:-21600}
+      MESSENGER_GROUP_CALL_RECONCILE_INTERVAL_SECONDS: ${MESSENGER_GROUP_CALL_RECONCILE_INTERVAL_SECONDS:-30}
+      MESSENGER_FORWARDED_ALLOW_IPS: "*"
+      MESSENGER_READY_REQUIRE_REDIS: "true"
+      MESSENGER_ATTACHMENT_ROOT: /attachments
+      MESSENGER_ATTACHMENT_MAX_BYTES: ${MESSENGER_ATTACHMENT_MAX_BYTES:-26214400}
+      MESSENGER_ATTACHMENT_ORPHAN_HOURS: ${MESSENGER_ATTACHMENT_ORPHAN_HOURS:-24}
+      MESSENGER_CLAMAV_HOST: clamav
+      MESSENGER_CLAMAV_PORT: "3310"
+      MESSENGER_CLAMAV_TIMEOUT_SECONDS: ${MESSENGER_CLAMAV_TIMEOUT_SECONDS:-30}
+    volumes:
+      - messenger_attachments:/attachments
+    read_only: true
+    tmpfs:
+      - /tmp:size=32m,mode=1777
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+
+  livekit:
+    image: livekit/livekit-server:v1.10.0
+    restart: unless-stopped
+    # The config is rendered from this command string, not a mounted file:
+    # docker compose substitutes ${MESSENGER_LIVEKIT_*} here at parse time,
+    # which sidesteps needing to know whether livekit-server itself does
+    # env-var expansion inside a static YAML file.
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - |
+        cat > /tmp/livekit.yaml <<EOF
+        port: 7880
+        rtc:
+          tcp_port: 7881
+          udp_port: 7882
+          use_external_ip: true
+        keys:
+          ${MESSENGER_LIVEKIT_API_KEY:?Set MESSENGER_LIVEKIT_API_KEY in .env}: ${MESSENGER_LIVEKIT_API_SECRET:?Set MESSENGER_LIVEKIT_API_SECRET in .env}
+        webhook:
+          api_key: ${MESSENGER_LIVEKIT_API_KEY}
+          urls:
+            - http://messenger-api:8000/api/messenger/v1/livekit/webhook
+        EOF
+        exec /livekit-server --config /tmp/livekit.yaml
+    ports:
+      - "7880:7880/tcp"
+      - "7881:7881/tcp"
+      - "7882:7882/udp"
+    security_opt:
+      - no-new-privileges:true
+
+  gateway:
+    image: nginxinc/nginx-unprivileged:1.29-alpine
+    restart: unless-stopped
+    depends_on:
+      app:
+        condition: service_healthy
+      messenger-api:
+        condition: service_healthy
+    ports:
+      - "5000:8080"
+    volumes:
+      - ./deploy/nginx.conf:/etc/nginx/nginx.conf:ro
+    read_only: true
+    tmpfs:
+      - /var/cache/nginx:size=16m
+      - /var/run:size=1m
+      - /tmp:size=32m
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+
+  backup:
+    build:
+      context: ./services/backup
+    profiles: ["operations"]
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://postgres:${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}@postgres:5432/universalai
+      BACKUP_ENCRYPTION_PASSPHRASE: ${BACKUP_ENCRYPTION_PASSPHRASE:?Set BACKUP_ENCRYPTION_PASSPHRASE in .env}
+      BACKUP_RETENTION_DAYS: ${BACKUP_RETENTION_DAYS:-30}
+    volumes:
+      - messenger_backups:/backups
+      - messenger_attachments:/attachments:ro
+    group_add:
+      - "10001"
+    restart: "no"
+    read_only: true
+    tmpfs:
+      - /tmp:size=64m,mode=1777
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+
+  restore-test-db:
+    image: pgvector/pgvector:pg16
+    profiles: ["operations"]
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: restore-test-only
+      POSTGRES_DB: restoretest
+    tmpfs:
+      - /var/lib/postgresql/data:size=512m
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d restoretest"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+    restart: "no"
+
+volumes:
+  pg_data:
+  messenger_backups:
+  messenger_attachments:
+  avatar_data:
